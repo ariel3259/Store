@@ -2,7 +2,7 @@ package com.ariel.Store.DaoImp;
 
 
 import com.ariel.Store.Dao.UsersDao;
-import com.ariel.Store.JUtils.Tokens;
+import com.ariel.Store.Utils.Tokens;
 import com.ariel.Store.Models.Users;
 import com.ariel.Store.Repositories.UsersRepository;
 import org.mindrot.jbcrypt.BCrypt;
@@ -67,8 +67,11 @@ public class UsersDaoImp implements UsersDao {
             return this.serverResponse;
         }
         this.serverResponse.put("message", "Welcome "+validatesUser.get().getName());
-        this.serverResponse.put("token", jwt.getToken(validatesUser.get().getId(), "http://localhost"));
-        this.serverResponse.put("id", String.valueOf(validatesUser.get().getId()));
+        this.serverResponse.put("token", jwt.getToken(validatesUser.get().getId().toString()));
+        this.serverResponse.put("subject", String.valueOf(validatesUser.get().getId()));
+        this.serverResponse.put("dni", validatesUser.get().getDni());
+        this.serverResponse.put("name", validatesUser.get().getName());
+        this.serverResponse.put("lastName", validatesUser.get().getLastName());
         return this.serverResponse;
     }
 }
