@@ -30,6 +30,7 @@ public class ProductsDaoImp implements ProductsDao {
     public List<Products> GetAllProducts(String dni, boolean state, HttpServletResponse response) {
         if(dni == null){
             response.setStatus(400);
+            System.out.println("There's no dni");
             return null;
         }
         this.userValidate = this.usersRepository.findByDni(dni);
@@ -62,13 +63,20 @@ public class ProductsDaoImp implements ProductsDao {
     }
 
     @Override
-    public Map<String, String> ModifiedOneProduct(Products product, HttpServletResponse response) {
+    public Map<String, String> ModifiedOneProduct(Products product, String dni, HttpServletResponse response) {
         this.serverResponse = new HashMap<>();
-        if(product.isEmpty() || product.getId() == 0){
+        if(product.isEmpty() || product.getId() == 0 || dni == null){
             response.setStatus(400);
             this.serverResponse.put("message", "Incomplete data");
             return this.serverResponse;
         }
+        this.userValidate = this.usersRepository.findByDni(dni);
+        if(this.userValidate.isEmpty()){
+            response.setStatus(400);
+            this.serverResponse.put("message", "The user doesn't exits");
+            return this.serverResponse;
+        }
+        product.setUser(this.userValidate.get());
         this.productsRepository.save(product);
         this.serverResponse.put("message", "Modified product");
         return this.serverResponse;
