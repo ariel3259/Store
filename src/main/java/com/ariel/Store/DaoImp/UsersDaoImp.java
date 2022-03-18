@@ -66,12 +66,14 @@ public class UsersDaoImp implements UsersDao {
             this.serverResponse.put("message", "Wrong password");
             return this.serverResponse;
         }
+
+        //dni also works as subject for jwt
         this.serverResponse.put("message", "Welcome "+validatesUser.get().getName());
-        this.serverResponse.put("token", jwt.getToken(validatesUser.get().getId().toString()));
-        this.serverResponse.put("subject", String.valueOf(validatesUser.get().getId()));
         this.serverResponse.put("dni", validatesUser.get().getDni());
         this.serverResponse.put("name", validatesUser.get().getName());
         this.serverResponse.put("lastName", validatesUser.get().getLastName());
+        this.serverResponse.put("access_token", jwt.getToken(validatesUser.get().getDni()));
+
         return this.serverResponse;
     }
 }

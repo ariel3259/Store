@@ -27,7 +27,6 @@ public class LoggerAuthentification extends OncePerRequestFilter {
 
         if(!jwt.verificationToken(request.getHeader("authorization"), request.getHeader("subject"))){
             response.sendError(401, "You don't have access");
-            System.out.println(response.getStatus());
             return;
         }
 

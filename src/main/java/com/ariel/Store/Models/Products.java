@@ -10,19 +10,26 @@ import javax.persistence.*;
 @AllArgsConstructor
 
 public class Products {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  @Column(name = "name", unique = true)
+
+  @Column(name = "name")
   private String name;
+
   @Column(name = "description")
   private String description;
+
   @Column(name = "price")
   private float price;
+
   @Column(name = "stock")
   private int stock;
+
   @ManyToOne
   private Users user;
+
   @Column(name = "state")
   private boolean state;
 

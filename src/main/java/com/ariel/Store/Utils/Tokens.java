@@ -16,28 +16,26 @@ public class Tokens {
 
     private JWT jwt;
 
-    public String getToken(String id ){
-        //Subject is id
+    public String getToken(String subject ){
+        //Subject is dni
         //issuer is page's domain
         Signer signer = HMACSigner.newSHA256Signer("loremloremlorem");
         this.jwt = new JWT().setIssuer("http://localhost:3000")
                 .setIssuedAt(ZonedDateTime.now(ZoneOffset.UTC))
-                .setSubject(String.valueOf(id))
+                .setSubject(subject)
                 .setExpiration(ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(60));
 
         return JWT.getEncoder().encode(this.jwt, signer);
     }
 
-    public boolean verificationToken(String token, String id){
+    public boolean verificationToken(String token, String subject){
         Verifier verify = HMACVerifier.newVerifier("loremloremlorem");
-        if(token == null || id == null){
-            System.out.println("No hay datos");
+        if(token == null || subject == null){
             return false;
         }
-        System.out.println(id);
         try{
             this.jwt = JWT.getDecoder().decode(token, verify);
-            assertEquals(this.jwt.subject, id);
+            assertEquals(this.jwt.subject, subject);
             return true;
         } catch(Exception | ComparisonFailure e){
             System.out.println(e);

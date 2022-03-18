@@ -28,7 +28,8 @@ public class ProductsDaoImp implements ProductsDao {
 
     @Override
     public List<Products> GetAllProducts(String dni, boolean state, HttpServletResponse response) {
-        if(dni == null){
+
+       if(dni == null){
             response.setStatus(400);
             System.out.println("There's no dni");
             return null;

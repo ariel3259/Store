@@ -15,11 +15,8 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class Users {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy =  "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(name = "name")
     private String name;
