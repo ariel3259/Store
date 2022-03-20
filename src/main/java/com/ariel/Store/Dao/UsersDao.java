@@ -1,6 +1,7 @@
 package com.ariel.Store.Dao;
 
 import com.ariel.Store.Models.Users;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
@@ -10,16 +11,14 @@ public interface UsersDao {
     /**
      *
      * @param user Users
-     * @param response HttpServletResponse
-     * @return Map of String/String
+     * @return ResponseEntity with Map String/Object
      */
-    Map<String, String> Register(Users user, HttpServletResponse response);
+    ResponseEntity<Map<String, Object>> Register(Users user);
 
     /**
      *
      * @param user Users
-     * @param response HttpServletResponse
-     * @return Map of String/String
+     * @return ResponseEntity with Map String/Object
      */
-    Map<String, String> Auth(Users user, HttpServletResponse response);
+    ResponseEntity<Map<String, Object>> Auth(Users user);
 }

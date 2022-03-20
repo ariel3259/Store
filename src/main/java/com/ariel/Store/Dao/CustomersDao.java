@@ -1,6 +1,7 @@
 package com.ariel.Store.Dao;
 
 import com.ariel.Store.Models.Customers;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -10,28 +11,25 @@ public interface CustomersDao {
 
     /**
      *
-     * @param productName String
+     * @param productId int
      * @param userDni  String
      * @param customer Customers
-     * @param response HttpServletResponse
-     * @return Map of String/String
+     * @return ResponseEntity with Map of String/String
      */
-    Map<String, String> soldProduct(String productName,String userDni, Customers customer, HttpServletResponse response);
+    ResponseEntity<Map<String, Object>> soldProduct(int productId, String userDni, Customers customer);
 
     /**
      *
      * @param dni String
-     * @param response HttpServletResponse
-     * @return List of Customers
+     * @return ResponseEntity with List of Customers
      */
-    List<Customers> getCustomers(String dni, HttpServletResponse response);
+    ResponseEntity<List<Customers>> getCustomers(String dni);
 
     /**
      *
      * @param id integer
-     * @param response HttpServletResponse
-     * @return Map of String/String
+     * @return ResponseEntity with Map of String/String
      */
-    Map<String, String> payingDebt(int id, HttpServletResponse response);
+    ResponseEntity<Map<String, Object>> payingDebt(int id);
 
 }

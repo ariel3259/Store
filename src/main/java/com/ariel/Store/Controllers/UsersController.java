@@ -3,8 +3,9 @@ package com.ariel.Store.Controllers;
 import com.ariel.Store.Dao.UsersDao;
 import com.ariel.Store.Models.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletResponse;
+
 import java.util.Map;
 
 @RestController
@@ -18,24 +19,22 @@ public class UsersController {
     /**
      * 
      * @param user Users
-     * @param response HttpServletResponse
-     * @return Map of String to String
+     * @return ResponseEntity with Map String/Object
      */
     @PostMapping("/register")
-    public Map<String, String> register(@RequestBody Users user, HttpServletResponse response){
-        return this.usersDao.Register(user, response);
+    public ResponseEntity<Map<String, Object>> register(@RequestBody Users user){
+        return this.usersDao.Register(user);
     }
     
     /**
      * 
      * @param user Users
-     * @param response HttpServletResponse
-     * @return	Map of String to String
+     * @return	EntityResponse with Map String/Object
      */
 
     @PostMapping("/auth")
-    public Map<String, String> auth(@RequestBody Users user, HttpServletResponse response){
-        return this.usersDao.Auth(user, response);
+    public ResponseEntity<Map<String, Object>> auth(@RequestBody Users user){
+        return this.usersDao.Auth(user);
     }
 
 }

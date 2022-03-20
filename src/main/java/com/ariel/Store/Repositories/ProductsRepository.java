@@ -9,5 +9,4 @@ import java.util.Optional;
 
 public interface ProductsRepository extends CrudRepository <Products, Integer> {
     List<Products> findByStateAndUser(boolean state, Users user);
-    Optional<Products> findByName(String name);
 }

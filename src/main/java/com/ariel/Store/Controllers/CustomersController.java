@@ -3,6 +3,7 @@ package com.ariel.Store.Controllers;
 import com.ariel.Store.Dao.CustomersDao;
 import com.ariel.Store.Models.Customers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -19,35 +20,32 @@ public class CustomersController {
     /**
      *
      * @param dni String
-     * @param response HttpServletResponse
-     * @return List of Customers
+     * @return ResponseEntity with List of Customers
      */
     @GetMapping()
-    public List<Customers> getAllCustomers(@RequestHeader("dni") String dni, HttpServletResponse response) {
-        return this.customersDao.getCustomers(dni, response);
+    public ResponseEntity<List<Customers>> getAllCustomers(@RequestHeader("dni") String dni) {
+        return this.customersDao.getCustomers(dni);
     }
 
     /**
      *
      * @param customer Customers
      * @param dni  String
-     * @param productName String
-     * @param response HttpServletResponse
-     * @return Map of String/String
+     * @param productId integer
+     * @return ResponseEntity with Map of String/Object
      */
     @PostMapping()
-    public Map<String, String> soldProduct(@RequestBody Customers customer, @RequestHeader("dni") String dni, @RequestHeader("product_name") String productName, HttpServletResponse response){
-        return this.customersDao.soldProduct(productName, dni, customer, response);
+    public ResponseEntity<Map<String, Object>> soldProduct(@RequestBody Customers customer, @RequestHeader("dni") String dni, @RequestHeader("product_id") int productId){
+        return this.customersDao.soldProduct(productId, dni, customer);
     }
 
     /**
      *
      * @param id integer
-     * @param response HttpServletResponse
      * @return Map of String/String
      */
     @PutMapping()
-    public Map<String, String> payingDebt(@RequestHeader("id") int id, HttpServletResponse response){
-        return this.customersDao.payingDebt(id, response);
+    public ResponseEntity<Map<String, Object>> payingDebt(@RequestHeader("id") int id){
+        return this.customersDao.payingDebt(id);
     }
 }

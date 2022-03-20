@@ -6,8 +6,8 @@ import com.ariel.Store.Models.Users;
 import com.ariel.Store.Repositories.ProductsRepository;
 import com.ariel.Store.Repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,84 +22,120 @@ public class ProductsDaoImp implements ProductsDao {
     @Autowired
     private UsersRepository usersRepository;
 
-    private Map<String, String> serverResponse;
+    private Map<String, Object> serverResponse;
 
     private Optional<Users> userValidate;
 
     @Override
-    public List<Products> GetAllProducts(String dni, boolean state, HttpServletResponse response) {
+    public ResponseEntity<List<Products>> GetAllProducts(String dni, boolean state) {
 
+        //Invalid data
        if(dni == null){
-            response.setStatus(400);
-            System.out.println("There's no dni");
-            return null;
+            return ResponseEntity.status(400).body(null);
         }
+
+       //Find User
         this.userValidate = this.usersRepository.findByDni(dni);
-        if(this.userValidate.isEmpty()){
-            response.setStatus(400);
-            return null;
-        }
-        return this.productsRepository.findByStateAndUser(state, this.userValidate.get());
+
+       //User doesn't exits
+       if(this.userValidate.isEmpty()){
+            return ResponseEntity.status(400).body(null);
+       }
+
+       //Response
+        return ResponseEntity.status(200).body(this.productsRepository.findByStateAndUser(state, this.userValidate.get()));
     }
 
     @Override
-    public Map<String, String> AddOneProduct(Products product, String dni, HttpServletResponse response) {
+    public ResponseEntity<Map<String, Object>> AddOneProduct(Products product, String dni) {
         this.serverResponse = new HashMap<>();
+
+        //Incomplete data
         if(product.isEmpty() || dni == null){
-            response.setStatus(400);
             this.serverResponse.put("message", "Incomplete data");
-            return this.serverResponse;
+            return ResponseEntity.status(400).body(this.serverResponse);
         }
+
+        //Find user
         this.userValidate = this.usersRepository.findByDni(dni);
+
+        //User doesn't exits
         if(this.userValidate.isEmpty()){
-            response.setStatus(400);
             this.serverResponse.put("message", "The user doesn't exits");
-            return this.serverResponse;
+            return ResponseEntity.status(401).body(this.serverResponse);
         }
+
+        //Adding User and State to product
         product.setUser(this.userValidate.get());
         product.setState(true);
+
+        //Saving product
         this.productsRepository.save(product);
+
+        //Response
         this.serverResponse.put("message", "Saved product");
-        return this.serverResponse;
+        return ResponseEntity.status(200).body(this.serverResponse);
     }
 
     @Override
-    public Map<String, String> ModifiedOneProduct(Products product, String dni, HttpServletResponse response) {
+    public ResponseEntity<Map<String, Object>> ModifiedOneProduct(Products product, String dni) {
         this.serverResponse = new HashMap<>();
+
+        //Incomplete data
         if(product.isEmpty() || product.getId() == 0 || dni == null){
-            response.setStatus(400);
             this.serverResponse.put("message", "Incomplete data");
-            return this.serverResponse;
+            return ResponseEntity.status(400).body(this.serverResponse);
         }
+
+        //Find user
         this.userValidate = this.usersRepository.findByDni(dni);
+
+        //User doesn't exits
         if(this.userValidate.isEmpty()){
-            response.setStatus(400);
             this.serverResponse.put("message", "The user doesn't exits");
-            return this.serverResponse;
+            return ResponseEntity.status(401).body(this.serverResponse);
         }
+
+        //Adding User and State to product
+        product.setState(true);
         product.setUser(this.userValidate.get());
+
+        //save product
         this.productsRepository.save(product);
+
+        //Response
         this.serverResponse.put("message", "Modified product");
-        return this.serverResponse;
+        return ResponseEntity.status(200).body(this.serverResponse);
     }
 
     @Override
-    public Map<String, String> DeletedOneProduct(int id, HttpServletResponse response) {
+    public ResponseEntity<Map<String, Object>> DeletedOneProduct(Integer id) {
         this.serverResponse = new HashMap<>();
-        if(id == 0){
-            response.setStatus(400);
+
+        //Incomplete data
+        if(id == null){
             this.serverResponse.put("message", "Incomplete data");
-            return this.serverResponse;
+            return ResponseEntity.status(400).body(this.serverResponse);
         }
+
+        //Finding product to delete
         Optional<Products> validateProduct = this.productsRepository.findById(id);
+
+        //Product doesn't exits
         if(validateProduct.isEmpty()){
-            response.setStatus(400);
             this.serverResponse.put("message", "The product doesn't exits");
+            return ResponseEntity.status(400).body(this.serverResponse);
         }
+
+        //Storages Product on Product variable
         Products product = validateProduct.get();
+
+        //Deleting product
         product.setState(false);
         this.productsRepository.save(product);
+
+        //Response
         this.serverResponse.put("message", "Erased Item");
-        return this.serverResponse;
+        return ResponseEntity.status(200).body(this.serverResponse);
     }
 }
