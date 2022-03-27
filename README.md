@@ -43,26 +43,26 @@ An api rest about store made with Spring boot  and MySQL
 
  ### Products:
   
-  - GET http://localhost:8000/api/products : Get All products by user and state. Needs a token(authorization), subject(int), dni(string) and a state(boolean) by header request.
+  - GET http://localhost:8000/api/products : Get All products by user and state. Needs a token(authorization), dni(string) and a state(boolean) by header request.
  Returns all products of user.
    
-  - POST http://localhost:8000/api/products : Saves a product. Needs a token(authorization), a subject(int) and a dni(string) by header request, and name(string),
+  - POST http://localhost:8000/api/products : Saves a product. Needs a token(authorization) and a dni(string) by header request, and name(string),
  description(string), price(float) and stock(int) by body request. Returns a json object.
  
-  - PUT http://localhost:8000/api/products : Modifies a porduct. Needs a token(authorization) and a subject(int), and a name(string), a description(string), a price(float),
+  - PUT http://localhost:8000/api/products : Modifies a porduct. Needs a token(authorization) and a dni(string), and a name(string), a description(string), a price(float),
  a stock(int) and an id(int) by body request. Returns a json object.
   
-  - DELETE http://localhost:8000/api/proucts : Deletes a product. Needs a token(authorization), a subject(int) and an id(int) by header request. Returns a json object.
+  - DELETE http://localhost:8000/api/proucts : Deletes a product. Needs a token(authorization), a dni(string) and an id(int) by header request. Returns a json object.
   
   ### Customers:
    
-  - GET http://localhost:8000/api/customers : Get all customers of the user. Needs token(authorization), a subject(int), and a dni(string) by header request.
+  - GET http://localhost:8000/api/customers : Get all customers of the user. Needs token(authorization) and a dni(string) by header request.
  Returns all customers of the user.
  
-  - POST http://localhost:8000/api/customers : Save a customer. Needs token(authorization), a subject(int), a dni(string) and a product_name(string) by header request, and 
+  - POST http://localhost:8000/api/customers : Save a customer. Needs token(authorization), a dni(string) and a product_name(string) by header request, and 
   a customerName(string) and items(int). Returns a json object.
   
-  - PUT http://localhost:8000/api/customers : Modifies state(customer properties). Needs an token(authorization), a subject(int) and an id(int) by header request. 
+  - PUT http://localhost:8000/api/customers : Modifies state(customer properties). Needs an token(authorization), a dni(string) and an id(int) by header request. 
  Returns a json object.
  
  ## Copyright: ariel3259
