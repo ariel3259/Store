@@ -7,11 +7,14 @@ import io.fusionauth.jwt.domain.JWT;
 import io.fusionauth.jwt.hmac.HMACSigner;
 import io.fusionauth.jwt.hmac.HMACVerifier;
 import org.junit.ComparisonFailure;
+import org.springframework.stereotype.Component;
+
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import static org.junit.Assert.assertEquals;
 
 
+@Component
 public class Tokens {
 
     private JWT jwt;
